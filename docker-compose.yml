@@ -1,0 +1,29 @@
+services:
+  backend:
+    container_name: codeleap_api
+    build: .
+    # command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    # command: sh -c "./entrypoint.sh"
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/codeleap
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=Z8FEFXPF*7uCw~k},G$(t~'-8K"7|n
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+
+  db:
+    image: postgres:17.2-alpine3.21
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=codeleap
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  postgres_data:
